@@ -10,8 +10,12 @@
     <meta charset="utf-8" />
   </head>
   <body>
-<div><a th:href="@{/user/add}">新規登録はこちら</a></div>
-    <h1>ユーザー情報一覧</h1>
+  <h3>住所録管理システム:住所録一覧</h3>
+  <form th:action="@{/user/add}">
+	<button type="submit" class="btn">新規登録</button>
+	<br>
+	<br>
+	</form>
     <table>
         <thead>
             <tr>
@@ -25,9 +29,9 @@
         <tbody>
             <tr th:each="user : ${userlist}" th:object="${user}">
                 <td class="center" th:text="*{id}"></td>
-                <td th:text="*{name}"></td>
-                <td th:text="*{address}"></td>
-                <td class="center" th:text="*{phone}"></td>
+                <td class="name" th:text="*{name}"></td>
+                <td class="address" th:text="*{address}"></td>
+                <td class="tel" th:text="*{phone}"></td>
                 <td class="center" th:text="${#dates.format(user.updateDate, 'yyyy/MM/dd')}"></td>
                 <td class="center" th:text="${#dates.format(user.createDate, 'yyyy/MM/dd')}"></td>
             </tr>
