@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.demo.dto.UserDeleteRequest;
 import com.example.demo.dto.UserRequest;
 import com.example.demo.dto.UserUpdateRequest;
 import com.example.demo.entity.User;
@@ -141,6 +142,16 @@ public class UserController {
 
         // ユーザー情報の更新
         userService.update(userUpdateRequest);
+        return "redirect:/user/list";
+    }
+
+
+    // 削除処理
+    @RequestMapping(value="/user/delete", method=RequestMethod.POST)
+    public String delete(@Validated @ModelAttribute UserDeleteRequest userDeleteRequest, BindingResult result, Model model) {
+
+        // ユーザー情報の更新
+        userService.update(userDeleteRequest);
         return "redirect:/user/list";
     }
 
