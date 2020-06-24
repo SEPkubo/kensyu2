@@ -42,8 +42,8 @@ function mOut() {	// 非表示にする
                 <td class="name" th:text="*{name}"></td>
                 <td class="listaddress" onmouseover="mOver(1)" onmouseout="mOut()"  th:text="*{address}"></td>
                 <td class="tel" th:text="*{phone}"></td>
-                <td class="center" th:text="${#dates.format(user.updateDate, 'yyyy/MM/dd')}"></td>
-                <td class="center" th:text="${#dates.format(user.createDate, 'yyyy/MM/dd')}"></td>
+                <td class="btn"><a th:href="@{/user/{id}(id=*{id})}">編集</a></td>
+                <td class="btn"><a th:href="@{/user/{id}/delete(id=*{id})}">削除</a></td>
             </tr>
         </tbody>
     </table>

@@ -19,4 +19,5 @@ private String address;
 * 電話番号
 */
 private String phone;
+
 }

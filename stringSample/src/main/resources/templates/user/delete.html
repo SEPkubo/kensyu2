@@ -2,32 +2,32 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>住所録編集</title>
-    <link href="/css/edit.css" rel="stylesheet"></link>
+    <link href="/css/add.css" rel="stylesheet"></link>
     <meta charset="utf-8" />
   </head>
   <body>
   	<h3>住所録管理システム:住所録編集</h3>
 
-  	<form th:action="@{/user/editcheck}" th:object="${userRequest}" method="post">
+
+
+  		<div class="table" th:object="${userRequest}">
   		<input type="hidden" name="id" th:value="*{id}" />
-  		<div class="table">
 		<table>
 			<tr>
 				<th class="cell_title">名前* :</th>
-				<td><input class="name-size" type="text" name="name" th:value="*{name}" /></td>
+				<td><span th:text="*{name}"></span></td>
 			</tr>
 			<tr>
 				<th class="cell_title">住所* :</th>
-				<td><input class="address-size" type="text" name="address" th:value="*{address}" /></td>
+				<td><span th:text="*{address}"></span></td>
 			</tr>
 			<tr>
 				<th class="cell_title">電話番号:</th>
-				<td><input type="text" name="phone" th:value="*{phone}" /></td>
+				<td><span th:text="*{phone}"></span></td>
 			</tr>
 		</table>
 		</div>
 		<div class="btn-ok"><input type="submit" value="確認" class="btn"></div>
-		</form>
 
 	<form th:action="@{/user/list}">
 		<div class="btn-return">
