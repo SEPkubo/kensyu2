@@ -8,6 +8,7 @@ table th, table td {
     padding: 6px;
 }
 
+
 table th {
     background-color: #6495ED;
 }
@@ -17,13 +18,22 @@ table th {
 }
 
 .address {
-	width: 400px;
+	width: 100px;
+	overflow: hidden
 }
 
+.listaddress {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  width: calc(100vw - 30px);
+  max-width: 100px;
+}
 .name {
-	width: 150px;
+	width: 300px;
 }
 
 .tel {
-	width: 180px;
+	width: 300px;
 }

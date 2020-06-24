@@ -4,6 +4,15 @@
     <title>Hello</title>
 <script th:inline="javascript">
 
+function mOver(message) {		// ポップアップする住所を取得
+    document.getElementById("info1").innerHTML = message;
+    document.getElementById("info1").style.visibility = "visible";
+
+}
+
+function mOut() {	// 非表示にする
+    document.getElementById("info1").style.visibility = "hidden";
+}
 
 </script>
     <link href="/css/list.css" rel="stylesheet"></link>
@@ -16,12 +25,13 @@
 	</form>
 	<br>
 	<br>
+	<div id="info1" style="position:absolute; top:145px; left:170px;z-index: 2; visibility:hidden; font-size:5; background-color:#FFFFFF; border-style:ridge;">info</div>
     <table>
         <thead>
             <tr>
                 <th>No.</th>
                 <th>名前</th>
-                <th>住所</th>
+                <th class="address">住所</th>
                 <th>電話番号</th>
                 <th colspan="2">&emsp;&emsp;</th>
             </tr>
@@ -30,7 +40,7 @@
             <tr th:each="user : ${userlist}" th:object="${user}">
                 <td class="center" th:text="*{id}"></td>
                 <td class="name" th:text="*{name}"></td>
-                <td class="address" th:text="*{address}"></td>
+                <td class="listaddress" onmouseover="mOver(1)" onmouseout="mOut()"  th:text="*{address}"></td>
                 <td class="tel" th:text="*{phone}"></td>
                 <td class="center" th:text="${#dates.format(user.updateDate, 'yyyy/MM/dd')}"></td>
                 <td class="center" th:text="${#dates.format(user.createDate, 'yyyy/MM/dd')}"></td>
