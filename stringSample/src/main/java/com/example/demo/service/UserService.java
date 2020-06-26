@@ -1,13 +1,14 @@
 package com.example.demo.service;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.UserDeleteRequest;
 import com.example.demo.dto.UserRequest;
 import com.example.demo.dto.UserUpdateRequest;
 import com.example.demo.entity.User;
@@ -48,14 +49,12 @@ public class UserService {
 	 * @return ユーザーTBLエンティティ
 	 */
 	private User CreateUser(UserRequest userRequest) {
-		Date now = new Date();
 
 		User user = new User();
 		user.setName(userRequest.getName());
 		user.setAddress(userRequest.getAddress());
 		user.setPhone(userRequest.getPhone());
-		user.setCreateDate(now);
-		user.setUpdateDate(now);
+		user.setDelete_flg(0);
 
 		return user;
 	}
@@ -79,7 +78,21 @@ public class UserService {
         user.setAddress(userUpdateRequest.getAddress());
         user.setName(userUpdateRequest.getName());
         user.setPhone(userUpdateRequest.getPhone());
-        user.setUpdateDate(new Date());
+        user.setDelete_flg(0);
         userRepository.save(user);
     }
+
+	 /**
+     * ユーザー情報 更新
+     * @param user ユーザー情報
+     */
+    public void delete(UserDeleteRequest userDeleteRequest) {
+        User user = findById(userDeleteRequest.getId());
+        user.setDelete_flg(1);
+        userRepository.save(user);
+    }
+
+	public List<Map<String, Object>> queryForList(String string) {
+		return null;
+	}
 }

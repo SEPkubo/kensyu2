@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,8 +40,11 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
 	public String displayList(Model model) {
-		List<User> userlist = userService.searchAll();
-		model.addAttribute("userlist", userlist);
+		//List<User> userlist = userService.searchAll();
+
+		 List<Map<String,Object>> list;
+	       list = userService.queryForList("select * from user where delete_flg = 0");
+		model.addAttribute("userlist", list);
 		return "user/list";
 	}
 
@@ -151,7 +155,7 @@ public class UserController {
     public String delete(@Validated @ModelAttribute UserDeleteRequest userDeleteRequest, BindingResult result, Model model) {
 
         // ユーザー情報の更新
-        userService.update(userDeleteRequest);
+        userService.delete(userDeleteRequest);
         return "redirect:/user/list";
     }
 

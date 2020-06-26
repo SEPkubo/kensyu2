@@ -8,7 +8,7 @@
   <body>
   	<h3>住所録管理システム:住所録削除</h3>
 
-
+	<form th:action="@{/user/delete}" th:object="${userRequest}" method="post">
 
   		<div class="table" th:object="${userRequest}">
   		<input type="hidden" name="id" th:value="*{id}" />
@@ -28,6 +28,7 @@
 		</table>
 		</div>
 		<div class="btn-ok"><input type="submit" value="確認" class="btn"></div>
+		</form>
 
 	<form th:action="@{/user/list}">
 		<div class="btn-return">
