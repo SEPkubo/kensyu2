@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,19 +18,22 @@ import com.example.demo.dto.UserDeleteRequest;
 import com.example.demo.dto.UserRequest;
 import com.example.demo.dto.UserUpdateRequest;
 import com.example.demo.entity.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 
 /**
  * ユーザー情報 Controller
  */
 @Controller
-public class UserController {
 
+public class UserController {
 	/**
 	 * ユーザー情報 Service
 	 */
 	@Autowired
 	UserService userService;
+
+	UserRepository  userRepository;
 
 	/**
 	 * ユーザー情報一覧画面を表示
@@ -40,11 +42,11 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
 	public String displayList(Model model) {
-		//List<User> userlist = userService.searchAll();
+		List<User> userlist = userRepository.findPhotosByUserId();
 
-		 List<Map<String,Object>> list;
-	       list = userService.queryForList("select * from user where delete_flg = 0");
-		model.addAttribute("userlist", list);
+		//userService.searchAll();
+
+		model.addAttribute("userlist", userlist);
 		return "user/list";
 	}
 
