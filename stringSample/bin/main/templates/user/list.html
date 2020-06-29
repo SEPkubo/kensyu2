@@ -5,6 +5,7 @@
 <script th:inline="javascript">
 
 function mOver(message) {		// ポップアップする住所を取得
+	console.log(message);
     document.getElementById("info1").innerHTML = message;
     document.getElementById("info1").style.visibility = "visible";
 
@@ -40,7 +41,7 @@ function mOut() {	// 非表示にする
             <tr th:each="user : ${userlist}" th:object="${user}">
                 <td class="center" th:text="*{id}"></td>
                 <td class="name" th:text="*{name}"></td>
-                <td class="listaddress" onmouseover="mOver(1)" onmouseout="mOut()"  th:text="*{address}"></td>
+                <td class="listaddress" th:attr="onmouseover=|mOver('*{address}')|"  onmouseout="mOut()">[[*{address}]]</td>
                 <td class="tel" th:text="*{phone}"></td>
                 <td class="btn"><a th:href="@{/user/{id}(id=*{id})}">編集</a></td>
                 <td class="btn"><a th:href="@{/user/{id}/delete(id=*{id})}">削除</a></td>

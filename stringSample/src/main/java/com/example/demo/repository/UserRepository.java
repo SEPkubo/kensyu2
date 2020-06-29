@@ -15,7 +15,7 @@ import com.example.demo.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 	 @Query(value = "Select * from user where delete_flg = 0", nativeQuery = true) // SQL
-	  List<User> findPhotosByUserId();
+	  List<User> findAll();
 //	  public static final String _querybase
 //	  = "SELECT"
 //			     + "id"

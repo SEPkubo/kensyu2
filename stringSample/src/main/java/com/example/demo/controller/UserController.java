@@ -18,7 +18,6 @@ import com.example.demo.dto.UserDeleteRequest;
 import com.example.demo.dto.UserRequest;
 import com.example.demo.dto.UserUpdateRequest;
 import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 
 /**
@@ -33,7 +32,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	UserRepository  userRepository;
 
 	/**
 	 * ユーザー情報一覧画面を表示
@@ -42,7 +40,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
 	public String displayList(Model model) {
-		List<User> userlist = userRepository.findPhotosByUserId();
+		List<User> userlist = userService.searchAll();
 
 		//userService.searchAll();
 
