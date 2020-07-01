@@ -7,10 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import lombok.Data;
 
@@ -21,16 +18,7 @@ import lombok.Data;
  */
 @Entity
 @Data
-@Table(uniqueConstraints = @UniqueConstraint(
-        columnNames = {"id", "name","address","phone","delete_flg"}))
-@NamedNativeQueries({
-@NamedNativeQuery(name = "selectquery",
-query = "Select id, name, address, phone,delete_flg from user where delete_flg = 0",
-resultClass = User.class)
-
-})
-
-
+@Table(name="user")
 // private EntityManager em;
 
 public class User implements Serializable {
@@ -41,7 +29,7 @@ public class User implements Serializable {
     */
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
 

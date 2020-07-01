@@ -7,6 +7,10 @@
   </head>
   <body>
   	<h3>住所録管理システム:住所録登録</h3>
+  	<div th:object="${userRequest}">
+  	<h3><span th:text="${errmsg}"></span></h3>
+
+  	</div>
   	<form th:action="@{/user/addcheck}" th:object="${userRequest}" method="post">
   	<div class="table">
 		<table>

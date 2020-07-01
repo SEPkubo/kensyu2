@@ -7,8 +7,11 @@
   </head>
   <body>
   	<h3>住所録管理システム:住所録編集</h3>
+  	<div th:object="${userUpdateRequest}">
+  	<h3><span th:text="${errmsg}"></span></h3>
+  	</div>
 
-  	<form th:action="@{/user/editcheck}" th:object="${userRequest}" method="post">
+  	<form th:action="@{/user/editcheck}" th:object="${userUpdateRequest}" method="post">
   		<input type="hidden" name="id" th:value="*{id}" />
   		<div class="table">
 		<table>

@@ -9,7 +9,7 @@ table th, table td {
 }
 
 
-table th {
+table tr.jyusyoroku_list {
     background-color: #6495ED;
 }
 
@@ -27,17 +27,33 @@ table th {
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  width: calc(100vw - 30px);
-  max-width: 100px;
+
+  max-width: 300px;
 }
 .name {
-	width: 300px;
+	width: 150px;
 }
 
 .tel {
-	width: 300px;
+	width: 100px;
 }
 
 .btn {
 	width: 70px;
+}
+
+.kensaku {
+	top:50px;
+	margin-left:500px;
+	position: absolute;
+}
+
+.btn-kensaku {
+	width: 170px;
+	border-width: 0px;
+	background-color: #ffffff;
+}
+
+.kensaku-txt {
+	border-width: 0px;
 }

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.common.Common;
 import com.example.demo.dto.UserDeleteRequest;
 import com.example.demo.dto.UserRequest;
 import com.example.demo.dto.UserUpdateRequest;
@@ -26,23 +28,41 @@ import com.example.demo.service.UserService;
 @Controller
 
 public class UserController {
+
 	/**
 	 * ユーザー情報 Service
 	 */
 	@Autowired
 	UserService userService;
 
+	String message = "";		// エラーメッセージ
 
 	/**
-	 * ユーザー情報一覧画面を表示
+	 * 一覧画面を表示
 	 * @param model Model
-	 * @return ユーザー情報一覧画面
+	 * @return 一覧画面
 	 */
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
 	public String displayList(Model model) {
 		List<User> userlist = userService.searchAll();
 
-		//userService.searchAll();
+		System.out.println(userlist.get(0));
+
+		model.addAttribute("userlist", userlist);
+		return "user/list";
+	}
+
+
+	/**
+	 * 住所検索の一覧画面を表示
+	 * @param model Model
+	 * @return 住所検索の一覧画面
+	 */
+	@RequestMapping(value = "/user/listsearch", method = RequestMethod.GET)
+	public String displayListsearch(@RequestParam(name = "Serchname") String Serchname,
+			Model model) {
+		List<User> userlist = userService.searchList(Serchname);
+
 
 		model.addAttribute("userlist", userlist);
 		return "user/list";
@@ -56,28 +76,15 @@ public class UserController {
 
 
 	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
-	public String displayAdd(Model model) {
+	public String displayAdd(@ModelAttribute("errmsg") String errmsg,Model model) {
+
+		if (errmsg != null) {
+			model.addAttribute("errmsg",errmsg);
+		}
 		model.addAttribute("userRequest", new UserRequest());
 		return "user/add";
 	}
 
-
-
-//	/**
-//	 * 登録画面確認画面を表示
-//	 * @param model Model
-//	 * @return ユーザー情報一覧画面
-//	 */
-//
-//
-//	@RequestMapping(value = "/user/addcheck", method=RequestMethod.POST)
-//	public String Add(@ModelAttribute UserRequest userRequestadd, Model model) {
-//		System.out.println("通った");
-//		userService.create(userRequestadd);
-//		model.addAttribute("userRequestadd", new UserRequest());
-//		System.out.println(userRequestadd);
-//		return "user/addcheck";
-//	}
 
 
 	/**
@@ -89,6 +96,7 @@ public class UserController {
 	@RequestMapping(value="/user/create", method=RequestMethod.POST)
     public String create(@ModelAttribute UserRequest userRequest, Model model) {
 		// 登録処理
+		System.out.println(userRequest);
 		userService.create(userRequest);
 		return "redirect:/user/list";
 	}
@@ -96,15 +104,25 @@ public class UserController {
 
     //  登録確認画面
     @PostMapping("/user/addcheck")
-    public String toBookInfo(@ModelAttribute("userRequestadd") UserRequest userRequestadd,Model model) {
-    	model.addAttribute("userRequest", new UserRequest());
+    public String toBookInfo(@ModelAttribute("userRequest") UserRequest userRequest,Model model) {
+    	String errmsg = Common.getErr(userRequest.getName(),userRequest.getAddress(),userRequest.getPhone());
+		if(errmsg != "") {
+			model.addAttribute("errmsg",errmsg);
+			return "/user/add";
+		}
+    	model.addAttribute("userRequest", userRequest);
         return "user/addcheck";
     }
 
     // 編集確認画面
     @PostMapping("/user/editcheck")
     public String editcheck(@ModelAttribute("userUpdateRequest") UserUpdateRequest userUpdateRequest,Model model) {
+    	String errmsg = Common.getErr(userUpdateRequest.getName(),userUpdateRequest.getAddress(),userUpdateRequest.getPhone());
     	model.addAttribute("userUpdateRequest", userUpdateRequest);
+		if(errmsg != "") {
+			message = errmsg;	// エラーメッセージを代入
+			return "forward:displayedit";		// エラー表示用の編集画面
+		}
         return "user/editcheck";
     }
 
@@ -120,7 +138,20 @@ public class UserController {
     @GetMapping("/user/{id}")
     public String displayView(@PathVariable Long id, Model model) {
     	User user = userService.findById(id);
-        model.addAttribute("userRequest", user);
+        model.addAttribute("userUpdateRequest", user);
+      return "user/edit";
+    }
+
+    /**
+     * エラーの編集画面を表示
+     * @param errmsg 表示するエラーメッセージ
+     * @param model Model
+     * @return 編集画面
+     */
+    @RequestMapping(value="/user/displayedit", method=RequestMethod.POST)
+    public String displayedit(@ModelAttribute("userUpdateRequest") UserUpdateRequest userUpdateRequest, Model model) {
+		model.addAttribute("errmsg",message);	// 事前に代入したエラーメッセージを取得
+        model.addAttribute("userUpdateRequest", userUpdateRequest);
       return "user/edit";
     }
 

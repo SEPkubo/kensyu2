@@ -4,9 +4,8 @@
     <title>Hello</title>
 <script th:inline="javascript">
 
-function mOver(message) {		// ポップアップする住所を取得
-	console.log(message);
-    document.getElementById("info1").innerHTML = message;
+function mOver(address) {		// ポップアップする住所を取得
+    document.getElementById("info1").innerHTML = address;
     document.getElementById("info1").style.visibility = "visible";
 
 }
@@ -26,10 +25,25 @@ function mOut() {	// 非表示にする
 	</form>
 	<br>
 	<br>
-	<div id="info1" style="position:absolute; top:145px; left:170px;z-index: 2; visibility:hidden; font-size:5; background-color:#FFFFFF; border-style:ridge;">info</div>
+	<div id="info1" style="position:absolute; top:100px; left:170px;z-index: 2; visibility:hidden; font-size:5; background-color:#FFFFFF; border-style:ridge;">info</div>
+	<div class="kensaku">
+	<form th:action="@{/user/listsearch}">
+	<table >
+	<tr>
+		<th><input class="kensaku-txt" type="text" name="Serchname" value=""></th>
+	</tr>
+
+	<tr>
+
+		<th><button type="submit" class="btn-kensaku">検索</button></th>
+	</tr>
+
+</table>
+</form>
+</div>
     <table>
         <thead>
-            <tr>
+            <tr class="jyusyoroku_list">
                 <th>No.</th>
                 <th>名前</th>
                 <th class="address">住所</th>
@@ -38,8 +52,8 @@ function mOut() {	// 非表示にする
             </tr>
         </thead>
         <tbody>
-            <tr th:each="user : ${userlist}" th:object="${user}">
-                <td class="center" th:text="*{id}"></td>
+            <tr th:each="user,a : ${userlist}" th:object="${user}">
+                <td class="center" th:text="${a.count}"></td>
                 <td class="name" th:text="*{name}"></td>
                 <td class="listaddress" th:attr="onmouseover=|mOver('*{address}')|"  onmouseout="mOut()">[[*{address}]]</td>
                 <td class="tel" th:text="*{phone}"></td>

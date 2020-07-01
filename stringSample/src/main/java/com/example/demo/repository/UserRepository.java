@@ -16,20 +16,12 @@ import com.example.demo.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	 @Query(value = "Select * from user where delete_flg = 0", nativeQuery = true) // SQL
 	  List<User> findAll();
-//	  public static final String _querybase
-//	  = "SELECT"
-//			     + "id"
-//			     + ",name"
-//			     + ",address"
-//			     + " ,phone"
-//			     + "  FROM"
-//			     + "  user"
-//			     + "  delete_flg"
-//			     + "  where"
-//			     + "  delete_flg = 0";
-//
-//	  @Query(value = _querybase, nativeQuery = true)
-//	    List<User> findAll();
-//
+
+
+
+	 @Query(value = "Select * from user where delete_flg = 0 AND address LIKE  %?1%", nativeQuery = true) // SQL
+	  List<User> listserch(String keyword);
+
+
 
 }

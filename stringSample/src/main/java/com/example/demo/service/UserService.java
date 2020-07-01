@@ -36,6 +36,10 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
+	public List<User> searchList(String keyword) {
+		return userRepository.listserch(keyword);
+	}
+
 	/**
 	 * ユーザー情報新規登録
 	 * @param user ユーザー情報
@@ -50,7 +54,7 @@ public class UserService {
 	 * @return ユーザーTBLエンティティ
 	 */
 	private User CreateUser(UserRequest userRequest) {
-
+		System.out.println("クリエイト" + userRequest);
 		User user = new User();
 		user.setName(userRequest.getName());
 		user.setAddress(userRequest.getAddress());

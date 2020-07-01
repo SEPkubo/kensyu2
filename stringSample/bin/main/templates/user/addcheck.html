@@ -7,7 +7,7 @@
   </head>
   <body>
   	<h3>住所録管理システム:住所録登録(確認)</h3>
-  		<div th:object="${userRequestadd}">
+  		<div th:object="${userRequest}">
   			<div class="table">
 
 		<table>
@@ -25,7 +25,7 @@
 			</tr>
 		</table>
 		</div>
-		<form th:action="@{/user/create}" th:object="${userRequestadd}" method="post">	<!-- 受け取った値をhidden項目で保持させる  -->
+		<form th:action="@{/user/create}" th:object="${userRequest}" method="post">	<!-- 受け取った値をhidden項目で保持させる  -->
 		<input type="hidden" name="name" th:value="*{name}">
 		<input type="hidden" name="address" th:value="*{address}">
 		<input type="hidden" name="phone" th:value="*{phone}">
