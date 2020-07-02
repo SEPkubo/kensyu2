@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,24 @@ public class UserController {
 	 * 一覧画面を表示
 	 * @param model Model
 	 * @return 一覧画面
+	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
-	public String displayList(Model model) {
+	public String displayList(Model model) throws UnsupportedEncodingException {
 		List<User> userlist = userService.searchAll();
 
-		System.out.println(userlist.get(0));
+
+		 for(int i = 0; i < userlist.size(); ++i){
+	            String tel = userlist.get(i).getPhone();
+	            if (tel.getBytes("UTF-8").length == 11) {	// 電話番号が11文字か判定
+					tel = new StringBuilder(tel)			// 電話番号のハイフン表示
+							.insert(7, '-')
+							.insert(3, '-')
+							.toString();
+					userlist.get(i).setPhone(tel);			// ハイフンを付けた電話番号をリストに戻す
+				}
+	        }
+
 
 		model.addAttribute("userlist", userlist);
 		return "user/list";
@@ -57,11 +70,23 @@ public class UserController {
 	 * 住所検索の一覧画面を表示
 	 * @param model Model
 	 * @return 住所検索の一覧画面
+	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping(value = "/user/listsearch", method = RequestMethod.GET)
 	public String displayListsearch(@RequestParam(name = "Serchname") String Serchname,
-			Model model) {
+			Model model) throws UnsupportedEncodingException {
 		List<User> userlist = userService.searchList(Serchname);
+
+		 for(int i = 0; i < userlist.size(); ++i){
+	            String tel = userlist.get(i).getPhone();
+	            if (tel.getBytes("UTF-8").length == 11) {	// 電話番号が11文字か判定
+					tel = new StringBuilder(tel)			// 電話番号のハイフン表示
+							.insert(7, '-')
+							.insert(3, '-')
+							.toString();
+					userlist.get(i).setPhone(tel);			// ハイフンを付けた電話番号をリストに戻す
+				}
+	        }
 
 
 		model.addAttribute("userlist", userlist);
@@ -96,7 +121,8 @@ public class UserController {
 	@RequestMapping(value="/user/create", method=RequestMethod.POST)
     public String create(@ModelAttribute UserRequest userRequest, Model model) {
 		// 登録処理
-		System.out.println(userRequest);
+
+		userRequest.setPhone(userRequest.getPhone().replace("-", ""));		// 電話番号のハイフンを除外
 		userService.create(userRequest);
 		return "redirect:/user/list";
 	}
@@ -134,10 +160,20 @@ public class UserController {
      * @param id 表示するユーザーID
      * @param model Model
      * @return 編集画面
+     * @throws UnsupportedEncodingException
      */
     @GetMapping("/user/{id}")
-    public String displayView(@PathVariable Long id, Model model) {
+    public String displayView(@PathVariable Long id, Model model) throws UnsupportedEncodingException {
     	User user = userService.findById(id);
+    	String tel = user.getPhone();
+        if (tel.getBytes("UTF-8").length == 11) {	// 電話番号が11文字か判定
+			tel = new StringBuilder(tel)			// 電話番号のハイフン表示
+					.insert(7, '-')
+					.insert(3, '-')
+					.toString();
+			user.setPhone(tel);			// ハイフンを付けた電話番号をリストに戻す
+		}
+
         model.addAttribute("userUpdateRequest", user);
       return "user/edit";
     }
@@ -161,10 +197,19 @@ public class UserController {
      * @param id 表示するユーザーID
      * @param model Model
      * @return 削除画面
+     * @throws UnsupportedEncodingException
      */
     @GetMapping("/user/{id}/delete")
-    public String delete(@PathVariable Long id, Model model) {
+    public String delete(@PathVariable Long id, Model model) throws UnsupportedEncodingException {
     	User user = userService.findById(id);
+    	String tel = user.getPhone();
+        if (tel.getBytes("UTF-8").length == 11) {	// 電話番号が11文字か判定
+			tel = new StringBuilder(tel)			// 電話番号のハイフン表示
+					.insert(7, '-')
+					.insert(3, '-')
+					.toString();
+			user.setPhone(tel);			// ハイフンを付けた電話番号をリストに戻す
+		}
         model.addAttribute("userRequest", user);
       return "user/delete";
     }
@@ -174,7 +219,7 @@ public class UserController {
     // 更新処理
     @RequestMapping(value="/user/update", method=RequestMethod.POST)
     public String update(@Validated @ModelAttribute UserUpdateRequest userUpdateRequest, BindingResult result, Model model) {
-
+    	userUpdateRequest.setPhone(userUpdateRequest.getPhone().replace("-", ""));		// 電話番号のハイフンを除外
         // ユーザー情報の更新
         userService.update(userUpdateRequest);
         return "redirect:/user/list";

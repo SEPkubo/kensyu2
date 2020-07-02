@@ -1,9 +1,10 @@
 @charset "UTF-8";
 .btn {
-  background-color: #ffffff;
+  background-color: #808080;
   color: black;
   border : solid 1px #000 ;
   width: 150px;
+  height:28px;
 }
 
 
@@ -36,14 +37,6 @@
 
 th{
 	text-align: right;
-}
-
-.address-size {
-	width: 560px;
-}
-
-.name-size {
-	width: 280px;
 }
 
 .address-size {

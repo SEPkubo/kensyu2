@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>Hello</title>
+    <title>住所録管理システム</title>
 <script th:inline="javascript">
 
 function mOver(address) {		// ポップアップする住所を取得
@@ -26,6 +26,7 @@ function mOut() {	// 非表示にする
 	<br>
 	<br>
 	<div id="info1" style="position:absolute; top:100px; left:170px;z-index: 2; visibility:hidden; font-size:5; background-color:#FFFFFF; border-style:ridge;">info</div>
+	<div class="kensakucategory"><h4>住所：</h4></div>
 	<div class="kensaku">
 	<form th:action="@{/user/listsearch}">
 	<table >
@@ -57,8 +58,8 @@ function mOut() {	// 非表示にする
                 <td class="name" th:text="*{name}"></td>
                 <td class="listaddress" th:attr="onmouseover=|mOver('*{address}')|"  onmouseout="mOut()">[[*{address}]]</td>
                 <td class="tel" th:text="*{phone}"></td>
-                <td class="btn"><a th:href="@{/user/{id}(id=*{id})}">編集</a></td>
-                <td class="btn"><a th:href="@{/user/{id}/delete(id=*{id})}">削除</a></td>
+                <td bgcolor=#808080><form th:action="@{/user/{id}(id=*{id})}"><button type="submit" class="btn-edit-delete">編集</button></form></td>
+                <td bgcolor=#808080><form th:action="@{/user/{id}/delete(id=*{id})}"><button type="submit" class="btn-edit-delete">削除</button></form></td>
             </tr>
         </tbody>
     </table>
