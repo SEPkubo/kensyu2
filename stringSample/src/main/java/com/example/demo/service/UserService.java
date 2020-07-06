@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.UserDeleteRequest;
@@ -39,6 +41,15 @@ public class UserService {
 	public List<User> searchList(String keyword) {
 		return userRepository.listserch(keyword);
 	}
+
+
+
+	// ページネーション
+	public Page<User> getPlayers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+
 
 	/**
 	 * ユーザー情報新規登録
@@ -99,4 +110,6 @@ public class UserService {
 	public List<Map<String, Object>> queryForList(String string) {
 		return null;
 	}
+
+
 }

@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +23,7 @@ import com.example.demo.dto.UserDeleteRequest;
 import com.example.demo.dto.UserRequest;
 import com.example.demo.dto.UserUpdateRequest;
 import com.example.demo.entity.User;
+import com.example.demo.pagewrapper.PageWrapper;
 import com.example.demo.service.UserService;
 
 /**
@@ -45,23 +48,27 @@ public class UserController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
-	public String displayList(Model model) throws UnsupportedEncodingException {
-		List<User> userlist = userService.searchAll();
+	public String displayList(@PageableDefault(page = 0, size = 10) Pageable pageable,Model model) throws UnsupportedEncodingException {
+		 Page<User> userlist = userService.getPlayers(pageable);
+
+		 PageWrapper<User> page = new PageWrapper<User>(userlist, "/user/list");
 
 
-		 for(int i = 0; i < userlist.size(); ++i){
-	            String tel = userlist.get(i).getPhone();
+
+
+		 for(int i = 0; i < userlist.getContent().size(); ++i){	// 電話番号のハイフン表示
+	            String tel = userlist.getContent().get(i).getPhone();
 	            if (tel.getBytes("UTF-8").length == 11) {	// 電話番号が11文字か判定
-					tel = new StringBuilder(tel)			// 電話番号のハイフン表示
+					tel = new StringBuilder(tel)
 							.insert(7, '-')
 							.insert(3, '-')
 							.toString();
-					userlist.get(i).setPhone(tel);			// ハイフンを付けた電話番号をリストに戻す
+					userlist.getContent().get(i).setPhone(tel);			// ハイフンを付けた電話番号をリストに戻す
 				}
 	        }
 
-
-		model.addAttribute("userlist", userlist);
+		model.addAttribute("page", page);
+		model.addAttribute("userlist",userlist.getContent());
 		return "user/list";
 	}
 
@@ -73,23 +80,28 @@ public class UserController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping(value = "/user/listsearch", method = RequestMethod.GET)
-	public String displayListsearch(@RequestParam(name = "Serchname") String Serchname,
+	public String displayListsearch(@PageableDefault(page = 0, size = 10) Pageable pageable,@RequestParam(name = "Serchname") String Serchname,
 			Model model) throws UnsupportedEncodingException {
-		List<User> userlist = userService.searchList(Serchname);
+		Page<User> userlist = userService.getPlayers(pageable);
 
-		 for(int i = 0; i < userlist.size(); ++i){
-	            String tel = userlist.get(i).getPhone();
+		 PageWrapper<User> page = new PageWrapper<User>(userlist, "/user/list");
+
+
+
+
+		 for(int i = 0; i < userlist.getContent().size(); ++i){	// 電話番号のハイフン表示
+	            String tel = userlist.getContent().get(i).getPhone();
 	            if (tel.getBytes("UTF-8").length == 11) {	// 電話番号が11文字か判定
-					tel = new StringBuilder(tel)			// 電話番号のハイフン表示
+					tel = new StringBuilder(tel)
 							.insert(7, '-')
 							.insert(3, '-')
 							.toString();
-					userlist.get(i).setPhone(tel);			// ハイフンを付けた電話番号をリストに戻す
+					userlist.getContent().get(i).setPhone(tel);			// ハイフンを付けた電話番号をリストに戻す
 				}
 	        }
 
-
-		model.addAttribute("userlist", userlist);
+		model.addAttribute("page", page);
+		model.addAttribute("userlist",userlist.getContent());
 		return "user/list";
 	}
 
