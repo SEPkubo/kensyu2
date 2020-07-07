@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-public class PageWrapper<T> {
+public class PageWrapper<T> {		// ラッパークラス
     public static final int MAX_PAGE_ITEM_DISPLAY = 5;
     private Page<T> page;
     private List<PageItem> items;

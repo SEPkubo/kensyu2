@@ -7,7 +7,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.UserDeleteRequest;
@@ -15,6 +17,7 @@ import com.example.demo.dto.UserRequest;
 import com.example.demo.dto.UserUpdateRequest;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.specification.EmployeeSpecifications;
 
 
 /**
@@ -30,6 +33,11 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 
+	@Autowired
+	EmployeeSpecifications a;
+
+	private static final int PAGE_SIZE=5;
+
 	/**
 	 * ユーザー情報 全検索
 	 * @return 検索結果
@@ -38,9 +46,19 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public List<User> searchList(String keyword) {
-		return userRepository.listserch(keyword);
-	}
+//	public List<User> searchList(String keyword) {
+//		return userRepository.listserch(keyword);
+//	}
+
+
+	public Page<User> search(int page, String keyword) {
+        return userRepository.findAddress(Specification
+            .where(a.empnameContains(keyword))
+            ,PageRequest.of(page<=0?0:page, PAGE_SIZE)
+        );
+    }
+
+
 
 
 
