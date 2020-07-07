@@ -11,11 +11,11 @@ import org.springframework.util.StringUtils;
 import com.example.demo.entity.User;
 
 public class EmployeeSpecifications {		// 住所検索
-    public static Specification<User> empnameContains(final String empname) {
-        return StringUtils.isEmpty(empname) ? null : new Specification<User>() {
+    public static Specification<User> empnameContains(final String address) {
+        return StringUtils.isEmpty(address) ? null : new Specification<User>() {
             @Override
             public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.like(root.get("empname"), "%" + empname + "%");
+                return cb.like(root.get("address"), "%" + address + "%");
             }
 
 

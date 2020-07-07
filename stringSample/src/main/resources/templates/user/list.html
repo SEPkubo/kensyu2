@@ -31,7 +31,7 @@ function mOut() {	// 非表示にする
 	<form th:action="@{/user/listsearch}">
 	<table >
 	<tr>
-		<th><input class="kensaku-txt" type="text" name="Serchname" value=""></th>
+		<th><input class="kensaku-txt" type="text" name="Serchaddress" value=""></th>
 	</tr>
 
 	<tr>
@@ -72,7 +72,7 @@ function mOut() {	// 非表示にする
                 </li>
                 <li th:class="${page.hasPreviousPage}? '' : 'disabled'" style="display:inline">
                     <span th:if='${not page.hasPreviousPage}'>&lt;</span>
-                    <a th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'>&lt;</a>
+                    <a th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size},)}'>&lt;</a>
                 </li>
 
 

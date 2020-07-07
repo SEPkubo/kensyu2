@@ -7,9 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.UserDeleteRequest;
@@ -17,7 +15,6 @@ import com.example.demo.dto.UserRequest;
 import com.example.demo.dto.UserUpdateRequest;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.specification.EmployeeSpecifications;
 
 
 /**
@@ -33,11 +30,6 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 
-	@Autowired
-	EmployeeSpecifications a;
-
-	private static final int PAGE_SIZE=5;
-
 	/**
 	 * ユーザー情報 全検索
 	 * @return 検索結果
@@ -50,20 +42,27 @@ public class UserService {
 //		return userRepository.listserch(keyword);
 //	}
 
+	// 住所検索ページネーション
+//    public Page<User> searchAddress(int page, String empname) {
+//        return userRepository.findAddress(Specification
+//            .where(empnameContains(empname))
+//            ,PageRequest.of(page<=0?0:page, PAGE_SIZE)
+//        );
+//    }
 
-	public Page<User> search(int page, String keyword) {
-        return userRepository.findAddress(Specification
-            .where(a.empnameContains(keyword))
-            ,PageRequest.of(page<=0?0:page, PAGE_SIZE)
-        );
-    }
 
+
+	 public Page<User> searchAddress(Pageable pageable,String address) {
+
+		 return userRepository.findAddress(address,pageable);
+
+	 }
 
 
 
 
 	// ページネーション
-	public Page<User> getPlayers(Pageable pageable) {
+	public Page<User> getList(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
 

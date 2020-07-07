@@ -49,12 +49,8 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
 	public String displayList(@PageableDefault(page = 0, size = 10) Pageable pageable,Model model) throws UnsupportedEncodingException {
-		 Page<User> userlist = userService.getPlayers(pageable);
-
+		Page<User> userlist = userService.getList(pageable);
 		 PageWrapper<User> page = new PageWrapper<User>(userlist, "/user/list");
-
-
-
 
 		 for(int i = 0; i < userlist.getContent().size(); ++i){	// 電話番号のハイフン表示
 	            String tel = userlist.getContent().get(i).getPhone();
@@ -67,10 +63,13 @@ public class UserController {
 				}
 	        }
 
+
 		model.addAttribute("page", page);
 		model.addAttribute("userlist",userlist.getContent());
 		return "user/list";
 	}
+
+
 
 
 	/**
@@ -80,11 +79,11 @@ public class UserController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping(value = "/user/listsearch", method = RequestMethod.GET)
-	public String displayListsearch(@PageableDefault(page = 0, size = 10) Pageable pageable,@RequestParam(name = "Serchname") String Serchname,
+	public String displayListsearch(@PageableDefault(page = 0, size = 10) Pageable pageable,@RequestParam(name = "Serchaddress") String Serchaddress,
 			Model model) throws UnsupportedEncodingException {
-		Page<User> userlist = userService.getPlayers(pageable);
-
-		 PageWrapper<User> page = new PageWrapper<User>(userlist, "/user/list");
+		System.out.println("a");
+		Page<User> userlist = userService.searchAddress(pageable,Serchaddress);
+		 PageWrapper<User> page = new PageWrapper<User>(userlist, "/user/listsearch/Serchaddress=" + Serchaddress);
 
 
 
@@ -104,6 +103,8 @@ public class UserController {
 		model.addAttribute("userlist",userlist.getContent());
 		return "user/list";
 	}
+
+
 
 	/**
 	 * 登録画面を表示
