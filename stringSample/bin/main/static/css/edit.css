@@ -36,6 +36,7 @@
 
 th{
 	text-align: right;
+	vertical-align: top;
 }
 
 .address-size {
@@ -52,4 +53,11 @@ th{
 
 .name-size {
 	width: 280px;
+}
+
+textarea {
+    resize: none;
+    width:150px;
+    height:15px;
+    font-family: arial, sans-serif;
 }

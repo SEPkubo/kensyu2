@@ -38,20 +38,7 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-//	public List<User> searchList(String keyword) {
-//		return userRepository.listserch(keyword);
-//	}
-
-	// 住所検索ページネーション
-//    public Page<User> searchAddress(int page, String empname) {
-//        return userRepository.findAddress(Specification
-//            .where(empnameContains(empname))
-//            ,PageRequest.of(page<=0?0:page, PAGE_SIZE)
-//        );
-//    }
-
-
-
+	// 一覧取得(検索条件がある場合)
 	 public Page<User> searchAddress(Pageable pageable,String address) {
 
 		 return userRepository.findAddress(address,pageable);
@@ -61,7 +48,7 @@ public class UserService {
 
 
 
-	// ページネーション
+	// 一覧取得(検索条件がない場合)
 	public Page<User> getList(Pageable pageable) {
         return userRepository.findAll(pageable);
     }

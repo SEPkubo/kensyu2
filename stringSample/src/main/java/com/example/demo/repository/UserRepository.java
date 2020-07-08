@@ -15,16 +15,9 @@ import com.example.demo.entity.User;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>,JpaSpecificationExecutor<User> {
-//	 @Query(value = "Select * from user where delete_flg = 0", nativeQuery = true) // SQL
-//	  List<User> findAll();
-
-
-
-//	 @Query(value = "Select * from user where delete_flg = 0 AND address LIKE  %?1%", nativeQuery = true) // SQL
-//	  List<User> listserch(String keyword);
 
 	@Query(value = "Select * from user where delete_flg = 0", nativeQuery = true)
-	 public Page<User> findAll(Pageable pageable);
+	 public Page<User> findAll(Pageable pageable);		// 検索条件がない場合
 
 
 
