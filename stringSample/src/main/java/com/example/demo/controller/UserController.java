@@ -156,7 +156,7 @@ public class UserController {
 
 	/**
 	 * 編集画面を表示
-	 * @param id 表示するユーザーID
+	 * @param id 表示されるデータのID
 	 * @param model Model
 	 * @return 編集画面
 	 * @throws UnsupportedEncodingException
@@ -192,7 +192,7 @@ public class UserController {
 
 	/**
 	 * 削除画面を表示
-	 * @param id 表示するユーザーID
+	 * @param id 表示されるデータのID
 	 * @param model Model
 	 * @return 削除画面
 	 * @throws UnsupportedEncodingException
@@ -217,7 +217,7 @@ public class UserController {
 	public String update(@Validated @ModelAttribute UserUpdateRequest userUpdateRequest, BindingResult result,
 			Model model) {
 		userUpdateRequest.setPhone(userUpdateRequest.getPhone().replace("-", "")); // 電話番号のハイフンを除外
-		// ユーザー情報の更新
+		// 情報の更新
 		userService.update(userUpdateRequest);
 		return "redirect:/user/list";
 	}
@@ -227,7 +227,7 @@ public class UserController {
 	public String delete(@Validated @ModelAttribute UserDeleteRequest userDeleteRequest, BindingResult result,
 			Model model) {
 
-		// ユーザー情報の更新
+		// 情報の更新
 		userService.delete(userDeleteRequest);
 		return "redirect:/user/list";
 	}

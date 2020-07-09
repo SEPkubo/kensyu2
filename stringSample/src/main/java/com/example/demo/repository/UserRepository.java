@@ -16,12 +16,12 @@ import com.example.demo.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>,JpaSpecificationExecutor<User> {
 
-	@Query(value = "Select * from user where delete_flg = 0", nativeQuery = true)
+	@Query(value = "Select * from user where delete_flg = 0 ORDER BY address ASC,phone ASC", nativeQuery = true)
 	 public Page<User> findAll(Pageable pageable);		// 検索条件がない場合
 
 
 
-	 @Query(value = "Select * from user where delete_flg = 0 AND address LIKE  %?1%", nativeQuery = true)
+	 @Query(value = "Select * from user where delete_flg = 0 AND address LIKE  %?1% ORDER BY address ASC,phone ASC", nativeQuery = true)
 	 public Page<User> findAddress(String keyword,Pageable pageable);		// 住所検索
 
 
